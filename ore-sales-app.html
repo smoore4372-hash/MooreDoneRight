@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Moore Done Right – Bath & Shower Builder (Sample)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #0d4f7c;
+      --primary-dark: #062c47;
+      --primary-light: #e3f0fa;
+      --accent: #f3a712;
+      --bg: #f3f4f6;
+      --card: #ffffff;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+    }
+
+    .app-shell {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 14px;
+    }
+
+    header {
+      background: radial-gradient(circle at top left, #1b6fab, var(--primary-dark));
+      color: #f9fafb;
+      padding: 14px 16px;
+      border-radius: 0 0 var(--radius) var(--radius);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.35);
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .logo-box {
+      width: 62px;
+      height: 62px;
+      border-radius: 16px;
+      background: rgba(15,23,42,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .logo-text-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-main {
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 1.15rem;
+      line-height: 1.1;
+    }
+
+    .logo-sub {
+      font-size: 0.9rem;
+      opacity: 0.95;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      min-width: 210px;
+    }
+
+    .pill {
+      background: rgba(15,23,42,0.45);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #10b981;
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.78rem;
+      color: #e5e7eb;
+      flex-wrap: wrap;
+    }
+
+    .toggle-row label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .toggle-row input {
+      transform: scale(1.05);
+    }
+
+    header p {
+      margin: 0;
+      font-size: 0.84rem;
+      opacity: 0.95;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.5fr);
+      gap: 14px;
+    }
+    @media (max-width: 980px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 12px 13px 14px;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+    }
+
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card h2 span.badge {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .section-desc {
+      margin: 0 0 8px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .tabs {
+      display: inline-flex;
+      border-radius: 999px;
+      background: #e5e7eb;
+      padding: 3px;
+      gap: 3px;
+      margin-bottom: 8px;
+    }
+
+    .tab-btn {
+      border-radius: 999px;
+      border: none;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      background: transparent;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .tab-btn.active {
+      background: #ffffff;
+      color: var(--primary-dark);
+      box-shadow: 0 1px 4px rgba(15,23,42,0.2);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    @media (max-width: 700px) {
+      .field-grid { grid-template-columns: 1fr; }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 0.82rem;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 0.8rem;
+    }
+
+    label span.muted {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      padding: 6px 8px;
+      font: inherit;
+      background: #f9fafb;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 1px rgba(13,79,124,0.3);
+    }
+
+    textarea { resize: vertical; min-height: 60px; }
+
+    .builder-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr);
+      gap: 8px;
+    }
+    @media (max-width: 900px) {
+      .builder-layout { grid-template-columns: 1fr; }
+    }
+
+    .visual-panel {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: linear-gradient(145deg, #f9fafb, #e5edff);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .visual-main {
+      border-radius: 10px;
+      background: #111827;
+      padding: 8px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 6px;
+      color: #f9fafb;
+      min-height: 150px;
+    }
+    @media (max-width: 600px) {
+      .visual-main { grid-template-columns: 1fr; }
+    }
+
+    .visual-wall {
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding: 6px;
+    }
+
+    .visual-wall::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 35%);
+    }
+
+    .visual-label {
+      position: relative;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+    }
+
+    .visual-side {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .visual-thumb {
+      flex: 1;
+      border-radius: 10px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 60px;
+    }
+
+    .visual-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 40%);
+    }
+
+    .visual-thumb-label {
+      position: absolute;
+      left: 6px;
+      bottom: 5px;
+      color: #f9fafb;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      z-index: 1;
+    }
+
+    .visual-note {
+      font-size: 0.8rem;
+      color: #f3f4f6;
+      margin-top: 2px;
+    }
+
+    .small-link {
+      font-size: 0.76rem;
+      margin-top: 2px;
+    }
+
+    .small-link a {
+      color: #bfdbfe;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .small-link a:hover {
+      text-decoration: underline;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 4px;
+    }
+    @media (max-width: 700px) {
+      .category-grid { grid-template-columns: 1fr; }
+    }
+
+    .category-card {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      padding: 7px 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .category-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(13,79,124,0.25);
+      background: #ffffff;
+    }
+
+    .category-title {
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+
+    .category-desc {
+      color: var(--text-muted);
+      font-size: 0.76rem;
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 6px;
+    }
+    @media (max-width: 900px) {
+      .product-list { grid-template-columns: 1fr; }
+    }
+
+    .product-card {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      min-height: 105px;
+    }
+
+    .product-card.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(13,79,124,0.25);
+    }
+
+    .product-image {
+      height: 80px;
+      background: #111827;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .product-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 40%);
+    }
+
+    .product-image-label {
+      position: absolute;
+      left: 6px;
+      bottom: 5px;
+      color: #f9fafb;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+      z-index: 1;
+    }
+
+    .product-body {
+      padding: 6px 8px 7px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 0.78rem;
+    }
+
+    .product-name {
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .product-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 4px;
+      align-items: baseline;
+    }
+
+    .product-price {
+      font-weight: 600;
+    }
+
+    .product-tag {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .product-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .price-summary {
+      border-radius: 10px;
+      border: 1px dashed #d1d5db;
+      padding: 9px 10px;
+      background: #f9fafb;
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .price-row span.label {
+      color: var(--text-muted);
+    }
+
+    .price-row span.val {
+      font-weight: 600;
+    }
+
+    .price-total {
+      margin-top: 5px;
+      padding-top: 5px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 1.02rem;
+      font-weight: 700;
+    }
+
+    .price-total span.note {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .payment-note {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .cart-list {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      padding: 7px 8px;
+      background: #ffffff;
+      font-size: 0.8rem;
+      max-height: 200px;
+      overflow: auto;
+      margin-bottom: 7px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .cart-item span.name {
+      color: var(--text-main);
+    }
+
+    .cart-item span.cat {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .cart-item span.price {
+      font-weight: 600;
+    }
+
+    .disclaimer {
+      margin-top: 6px;
+      font-size: 0.72rem;
+      color: #6b7280;
+      border-top: 1px dashed #e5e7eb;
+      padding-top: 5px;
+      line-height: 1.3;
+    }
+
+    .proposal {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      padding: 8px 9px;
+      background: #ffffff;
+      font-size: 0.8rem;
+    }
+
+    .proposal-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .proposal-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .proposal-client {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .proposal-section-title {
+      font-weight: 600;
+      margin-top: 6px;
+      margin-bottom: 1px;
+      font-size: 0.8rem;
+    }
+
+    .proposal-list {
+      margin: 0 0 0 1.1em;
+      padding-left: 0;
+    }
+
+    .proposal-list li {
+      margin-bottom: 2px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .chip {
+      font-size: 0.7rem;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button.secondary {
+      background: #e5e7eb;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    button:hover {
+      filter: brightness(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <div class="header-top">
+        <div class="logo-wrap">
+          <div class="logo-box">
+            <!-- Put a file named "moore-logo.png" in the same folder as this HTML -->
+            <img src="moore-logo.png" alt="Moore Done Right Logo" />
+          </div>
+          <div class="logo-text-wrap">
+            <div class="logo-main">MOORE DONE RIGHT</div>
+            <div class="logo-sub">Bathroom Remodeling • Shower & Bath Builder</div>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            In-Home & At-Home Design • Live Pricing
+          </div>
+          <div class="toggle-row">
+            <label>
+              <input type="checkbox" id="repMode" checked onchange="updateSummary()" />
+              Customer-facing mode (hide cost/margin details)
+            </label>
+          </div>
+        </div>
+      </div>
+      <p>
+        Use this tool as the Amazon-style builder for Moore Done Right. Customers (and reps) can select walls, bases, fixtures,
+        doors, flooring and more — with live visual feedback and a running investment summary.
+      </p>
+    </header>
+
+    <div class="layout">
+      <!-- LEFT SIDE -->
+      <div class="card">
+        <h2>
+          Customer & Build Mode
+          <span class="badge">Step 1</span>
+        </h2>
+        <p class="section-desc">
+          Capture basic info, then choose whether you're building a tub/shower system or the full bathroom package.
+        </p>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="customerName">Customer Name</label>
+            <input type="text" id="customerName" placeholder="John & Jane Smith" oninput="updateSummary()" />
+          </div>
+          <div class="field">
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="123 Main St, Albany, NY" oninput="updateSummary()" />
+          </div>
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" placeholder="518-555-1234" oninput="updateSummary()" />
+          </div>
+          <div class="field">
+            <label for="source">Lead Source <span class="muted">(optional)</span></label>
+            <select id="source" onchange="updateSummary()">
+              <option value="">Select source</option>
+              <option>Facebook / Instagram Ad</option>
+              <option>Google Search / Maps</option>
+              <option>Repeat Customer</option>
+              <option>Referral</option>
+              <option>Home Show / Event</option>
+              <option>Yard Sign / Truck</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn active" id="tabShower" onclick="setBuildMode('shower')">Shower / Tub System</button>
+          <button class="tab-btn" id="tabFullBath" onclick="setBuildMode('fullbath')">Full Bathroom Package</button>
+        </div>
+
+        <p class="section-desc" id="modeDesc">
+          You are building a <strong>shower / tub system</strong>. Later you can add flooring, vanity, lighting and more as a separate package.
+        </p>
+
+        <div class="builder-layout">
+          <!-- Visual Panel -->
+          <div class="visual-panel">
+            <div class="visual-main">
+              <div class="visual-wall" id="visualWall">
+                <div class="visual-label" id="visualWallLabel">BCI Prime – Subway White Acrylic</div>
+              </div>
+              <div class="visual-side">
+                <div class="visual-thumb" id="visualBaseThumb">
+                  <div class="visual-thumb-label" id="visualBaseLabel">Standard Shower Base</div>
+                </div>
+                <div class="visual-thumb" id="visualDoorThumb">
+                  <div class="visual-thumb-label" id="visualDoorLabel">Framed Sliding Door</div>
+                </div>
+              </div>
+            </div>
+            <div class="visual-note" id="visualNote">
+              Sample render only — selections below control this visual and the investment summary.
+            </div>
+            <div class="small-link">
+              Want a deeper 3D configurator?  
+              <a href="https://hosted.myepigraph.com/configurators/bci/prime/dist/?scene=prime" target="_blank">
+                Open BCI Prime configurator
+              </a>
+            </div>
+          </div>
+
+          <!-- Category & Product List -->
+          <div>
+            <label>Category</label>
+            <div class="category-grid" id="categoryGrid">
+              <!-- Filled by JS -->
+            </div>
+
+            <div class="product-list" id="productList">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="card">
+        <h2>
+          Investment Summary & Proposal Preview
+          <span class="badge">Live Update</span>
+        </h2>
+        <p class="section-desc">
+          Every selection is logged like an Amazon cart. Use this as a guide — final pricing is always confirmed at the in-home visit.
+        </p>
+
+        <div class="price-summary">
+          <div class="price-row">
+            <span class="label">Base Project (per mode)</span>
+            <span class="val" id="basePriceLabel">$0</span>
+          </div>
+          <div class="price-row">
+            <span class="label">Selected Components</span>
+            <span class="val" id="componentsPriceLabel">$0</span>
+          </div>
+          <div class="price-total">
+            <span>Total Project Investment</span>
+            <span id="totalPriceLabel">$0</span>
+          </div>
+          <div class="payment-note" id="paymentNote">
+            Estimated example payment over 120 months: $0/mo (sample only, not an official finance offer).
+          </div>
+        </div>
+
+        <div class="cart-list" id="cartList">
+          <!-- Cart items -->
+        </div>
+
+        <div class="disclaimer">
+          <strong>Important pricing notice:</strong> All pricing shown is for budgeting and concept design only. Final investment is subject to
+          in-home inspection, exact measurements, existing conditions, permitting, product availability, and any requested structural,
+          plumbing, or electrical changes. Depending on sizes, site conditions, and custom variations, final pricing may exceed the
+          advertised starting or maximum ranges. Nothing displayed here constitutes a binding contract or formal financing offer.
+        </div>
+
+        <div style="margin-top: 8px;" class="proposal">
+          <div class="proposal-header">
+            <div>
+              <div class="proposal-title">Moore Done Right – Bathroom Remodel Overview</div>
+              <div class="proposal-client" id="proposalClientLabel">
+                Prepared for: <strong>Homeowner</strong>
+              </div>
+            </div>
+            <div>
+              <span style="font-size:0.68rem; border-radius:999px; border:1px solid #d1d5db; padding:1px 7px;">
+                Draft concept • Not a final contract
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <div class="proposal-section-title">Project Snapshot</div>
+            <ul class="proposal-list" id="proposalOverview"></ul>
+          </div>
+          <div>
+            <div class="proposal-section-title">Scope Highlights</div>
+            <ul class="proposal-list" id="proposalScope"></ul>
+          </div>
+          <div>
+            <div class="proposal-section-title">Investment Summary</div>
+            <ul class="proposal-list" id="proposalInvestment"></ul>
+          </div>
+
+          <div class="chip-row" id="chipRow"></div>
+        </div>
+
+        <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" onclick="window.print()">🖨️ Print / Save as PDF</button>
+          <button type="button" class="secondary" onclick="resetBuild()">🔄 Reset build</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===============================
+    // BASIC DATA – PRICING & PRODUCTS
+    // ===============================
+
+    // Mode-level starting points you gave me:
+    // Tub replacement starts at $8,500
+    // Tile shower with acrylic/fiberglass pan starts at $12,000
+    // Tile shower with tile pan starts at $14,000
+
+    const BASE_MODE_PRICING = {
+      shower: {
+        label: "Shower / Tub System",
+        tubReplacementStart: 8500,
+        tileShowerWithAcrylicPan: 12000,
+        tileShowerWithTilePan: 14000
+      },
+      fullbath: {
+        label: "Full Bathroom Package",
+        base: 20000 // sample starting point for full bath; adjust later
+      }
+    };
+
+    // Simple "category" config
+    const CATEGORIES = [
+      { id: "walls", label: "Wall Systems (BCI Prime)", desc: "Prime acrylic patterns & colors." },
+      { id: "bases", label: "Shower / Tub Bases", desc: "Acrylic & fiberglass bases in multiple sizes." },
+      { id: "fixtures", label: "Delta Fixtures", desc: "Shower valves, trim & showerheads." },
+      { id: "doors", label: "Glass Doors", desc: "Framed & frameless options." },
+      { id: "flooring", label: "LifeProof Flooring", desc: "Luxury vinyl plank & tile (installed)." }
+    ];
+
+    // NOTE: These are EXAMPLE SKUs & prices.
+    // Structure is here so we can keep adding more later.
+
+    const PRODUCTS = {
+      walls: [
+        {
+          id: "bci_subway_white",
+          name: "BCI Prime – Subway White",
+          desc: "Classic white subway acrylic wall system. Clean, bright and timeless.",
+          price: 2500,
+          tag: "Best seller",
+          visual: { wallStyle: "subway_white" }
+        },
+        {
+          id: "bci_marble_carrara",
+          name: "BCI Prime – Carrara Marble",
+          desc: "Carrara marble-look acrylic for a high-end spa feel without grout.",
+          price: 3200,
+          tag: "Upgrade",
+          visual: { wallStyle: "marble_light" }
+        },
+        {
+          id: "bci_marble_charcoal",
+          name: "BCI Prime – Charcoal Marble",
+          desc: "Dark marble feature wall system for dramatic modern baths.",
+          price: 3600,
+          tag: "Premium",
+          visual: { wallStyle: "marble_dark" }
+        },
+        {
+          id: "bci_tile_warmstone",
+          name: "BCI Prime – Warm Stone Tile-Look",
+          desc: "Stone-look pattern with warm tones and minimal grout lines.",
+          price: 3400,
+          tag: "Designer",
+          visual: { wallStyle: "tile_warm" }
+        }
+      ],
+      bases: [
+        {
+          id: "base_shower_60x32_acrylic",
+          name: "60\" × 32\" Acrylic Shower Base",
+          desc: "Standard low-threshold acrylic shower base for most tub-to-shower conversions.",
+          price: 1400,
+          tag: "Most common",
+          visual: { baseStyle: "standard_base" }
+        },
+        {
+          id: "base_shower_60x36_acrylic",
+          name: "60\" × 36\" Acrylic Shower Base",
+          desc: "Deeper acrylic shower base for extra elbow room.",
+          price: 1650,
+          tag: "Upgrade size",
+          visual: { baseStyle: "wide_base" }
+        },
+        {
+          id: "base_shower_48x36_tile_ready",
+          name: "48\" × 36\" Tile-Ready Pan",
+          desc: "Tile-ready base for custom tile shower floors.",
+          price: 2200,
+          tag: "Tile pan",
+          visual: { baseStyle: "tile_pan" }
+        },
+        {
+          id: "base_tub_60x30",
+          name: "60\" × 30\" Tub Replacement",
+          desc: "Standard alcove tub replacement – acrylic or steel tub.",
+          price: 2200,
+          tag: "Tub",
+          visual: { baseStyle: "tub" }
+        }
+      ],
+      fixtures: [
+        {
+          id: "delta_tubshower_basic",
+          name: "Delta Tub/Shower – Base Package",
+          desc: "Delta tub/shower faucet package with standard pressure-balance valve.",
+          price: 750,
+          tag: "Included",
+          visual: { fixtureStyle: "delta_basic" }
+        },
+        {
+          id: "delta_in2ition",
+          name: "Delta In2ition Shower System",
+          desc: "In2ition 2-in-1 showerhead with integrated handshower for added flexibility.",
+          price: 950,
+          tag: "Popular upgrade",
+          visual: { fixtureStyle: "delta_in2ition" }
+        },
+        {
+          id: "delta_rainfall_t17",
+          name: "Delta T17 Rainfall Package",
+          desc: "Delta T17 series trim with thermostatic-style feel and overhead rainfall showerhead.",
+          price: 1350,
+          tag: "Rainfall",
+          visual: { fixtureStyle: "delta_rain" }
+        },
+        {
+          id: "delta_r22000_system",
+          name: "Delta R22000 MultiChoice System",
+          desc: "R22000 universal valve platform with upgraded trim – future-proof and premium.",
+          price: 1650,
+          tag: "Premium valve",
+          visual: { fixtureStyle: "delta_r22000" }
+        }
+      ],
+      doors: [
+        {
+          id: "door_framed_slider",
+          name: "Framed Sliding Shower Door",
+          desc: "Clear glass slider with metal frame – reliable, budget-friendly.",
+          price: 1100,
+          tag: "Standard",
+          visual: { doorStyle: "framed" }
+        },
+        {
+          id: "door_semi_frameless",
+          name: "Semi-Frameless Slider",
+          desc: "Sleeker look with less metal and upgraded rollers.",
+          price: 1450,
+          tag: "Upgrade",
+          visual: { doorStyle: "semi" }
+        },
+        {
+          id: "door_frameless_hinged",
+          name: "Frameless Hinged Door",
+          desc: "Heavy glass, frameless hinged door for a clean, modern look.",
+          price: 1900,
+          tag: "Premium",
+          visual: { doorStyle: "frameless" }
+        }
+      ],
+      flooring: [
+        {
+          id: "lfp_sterling_oak",
+          name: "LifeProof – Sterling Oak (LVP)",
+          desc: "Popular grey-toned wood-look luxury vinyl plank. Installed over suitable subfloor.",
+          price: 2800,
+          tag: "Up to ~75 sq ft",
+          visual: { floorStyle: "sterling_oak" }
+        },
+        {
+          id: "lfp_trail_oak",
+          name: "LifeProof – Trail Oak (LVP)",
+          desc: "Warm brown plank with natural variation for a cozy feel.",
+          price: 2800,
+          tag: "Up to ~75 sq ft",
+          visual: { floorStyle: "trail_oak" }
+        },
+        {
+          id: "lfp_lvt_marble",
+          name: "LifeProof – Marble Look (LVT)",
+          desc: "Luxury vinyl tile with marble-look pattern, installed with appropriate prep.",
+          price: 3100,
+          tag: "Tile-look",
+          visual: { floorStyle: "marble_lvt" }
+        }
+      ]
+    };
+
+    // ======================
+    // STATE
+    // ======================
+    let buildMode = "shower"; // 'shower' or 'fullbath'
+    let selectedCategoryId = "walls";
+    const selectedProducts = {
+      walls: null,
+      bases: null,
+      fixtures: null,
+      doors: null,
+      flooring: null
+    };
+
+    // ======================
+    // HELPERS
+    // ======================
+    function formatMoney(n) {
+      return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+
+    function setBuildMode(mode) {
+      buildMode = mode;
+      document.getElementById("tabShower").classList.toggle("active", mode === "shower");
+      document.getElementById("tabFullBath").classList.toggle("active", mode === "fullbath");
+      const descEl = document.getElementById("modeDesc");
+      if (mode === "shower") {
+        descEl.innerHTML =
+          'You are building a <strong>shower / tub system</strong>. This covers wet area walls, base, fixtures and door. Flooring and vanity can be added as a separate line item.';
+      } else {
+        descEl.innerHTML =
+          'You are building a <strong>full bathroom package</strong>. Use this to estimate walls, base, fixtures, flooring and more as one project scope.';
+      }
+      updateSummary();
+    }
+
+    function resetBuild() {
+      Object.keys(selectedProducts).forEach(k => (selectedProducts[k] = null));
+      buildMode = "shower";
+      document.getElementById("tabShower").classList.add("active");
+      document.getElementById("tabFullBath").classList.remove("active");
+      document.getElementById("repMode").checked = true;
+      selectedCategoryId = "walls";
+      renderCategories();
+      renderProducts();
+      updateVisualFromSelections();
+      updateSummary();
+    }
+
+    function renderCategories() {
+      const grid = document.getElementById("categoryGrid");
+      grid.innerHTML = "";
+      CATEGORIES.forEach(cat => {
+        const div = document.createElement("div");
+        div.className = "category-card" + (cat.id === selectedCategoryId ? " active" : "");
+        div.onclick = () => {
+          selectedCategoryId = cat.id;
+          renderCategories();
+          renderProducts();
+        };
+        div.innerHTML = `
+          <div class="category-title">${cat.label}</div>
+          <div class="category-desc">${cat.desc}</div>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function renderProducts() {
+      const listEl = document.getElementById("productList");
+      listEl.innerHTML = "";
+
+      const catProducts = PRODUCTS[selectedCategoryId] || [];
+      if (catProducts.length === 0) {
+        listEl.innerHTML = '<div style="font-size:0.8rem;color:#6b7280;">No products defined yet for this category.</div>';
+        return;
+      }
+
+      catProducts.forEach(p => {
+        const card = document.createElement("div");
+        const isActive = selectedProducts[selectedCategoryId] === p.id;
+        card.className = "product-card" + (isActive ? " active" : "");
+        card.onclick = () => {
+          selectedProducts[selectedCategoryId] = p.id;
+          renderProducts();
+          updateVisualFromSelections();
+          updateSummary();
+        };
+
+        // Simple gradient backgrounds to stand in for real images
+        let bgStyle = "";
+        if (selectedCategoryId === "walls") {
+          if (p.visual?.wallStyle === "subway_white") bgStyle = "linear-gradient(135deg,#f9fafb,#e5e7eb)";
+          else if (p.visual?.wallStyle === "marble_light") bgStyle = "linear-gradient(135deg,#e5e7eb,#f3f4f6)";
+          else if (p.visual?.wallStyle === "marble_dark") bgStyle = "linear-gradient(135deg,#4b5563,#111827)";
+          else if (p.visual?.wallStyle === "tile_warm") bgStyle = "linear-gradient(135deg,#e5b08c,#b45309)";
+        } else if (selectedCategoryId === "bases") {
+          if (p.visual?.baseStyle === "tub") bgStyle = "linear-gradient(135deg,#f9fafb,#e5e7eb)";
+          else if (p.visual?.baseStyle === "tile_pan") bgStyle = "linear-gradient(135deg,#e5e7eb,#9ca3af)";
+          else bgStyle = "linear-gradient(135deg,#f9fafb,#d1d5db)";
+        } else if (selectedCategoryId === "fixtures") {
+          bgStyle = "linear-gradient(135deg,#0f172a,#1f2937)";
+        } else if (selectedCategoryId === "doors") {
+          bgStyle = "linear-gradient(135deg,#e5e7eb,#9ca3af)";
+        } else if (selectedCategoryId === "flooring") {
+          if (p.visual?.floorStyle === "sterling_oak") bgStyle = "linear-gradient(135deg,#6b7280,#4b5563)";
+          else if (p.visual?.floorStyle === "trail_oak") bgStyle = "linear-gradient(135deg,#b45309,#78350f)";
+          else bgStyle = "linear-gradient(135deg,#e5e7eb,#9ca3af)";
+        }
+
+        card.innerHTML = `
+          <div class="product-image" style="background:${bgStyle};">
+            <div class="product-image-label">${p.tag || ""}</div>
+          </div>
+          <div class="product-body">
+            <div class="product-name">${p.name}</div>
+            <div class="product-meta">
+              <span class="product-price">${formatMoney(p.price)}</span>
+              <span class="product-tag">${selectedCategoryId}</span>
+            </div>
+            <div class="product-desc">${p.desc}</div>
+          </div>
+        `;
+        listEl.appendChild(card);
+      });
+    }
+
+    function updateVisualFromSelections() {
+      const wallEl = document.getElementById("visualWall");
+      const wallLabelEl = document.getElementById("visualWallLabel");
+      const baseThumb = document.getElementById("visualBaseThumb");
+      const baseLabel = document.getElementById("visualBaseLabel");
+      const doorThumb = document.getElementById("visualDoorThumb");
+      const doorLabel = document.getElementById("visualDoorLabel");
+
+      // Default wall
+      wallEl.style.background = "linear-gradient(135deg,#d6d3ce,#9ca3af)";
+      wallLabelEl.textContent = "BCI Prime – Subway White Acrylic";
+
+      const wallSel = selectedProducts.walls
+        ? PRODUCTS.walls.find(p => p.id === selectedProducts.walls)
+        : null;
+      if (wallSel) {
+        wallLabelEl.textContent = wallSel.name;
+        const style = wallSel.visual?.wallStyle;
+        if (style === "marble_light") wallEl.style.background = "linear-gradient(135deg,#e5e7eb,#f3f4f6)";
+        else if (style === "marble_dark") wallEl.style.background = "linear-gradient(135deg,#374151,#111827)";
+        else if (style === "tile_warm") wallEl.style.background = "linear-gradient(135deg,#e5b08c,#b45309)";
+        else wallEl.style.background = "linear-gradient(135deg,#f9fafb,#d1d5db)";
+      }
+
+      // Base
+      baseThumb.style.background = "linear-gradient(135deg,#f9fafb,#d1d5db)";
+      baseLabel.textContent = "Standard Shower Base";
+      const baseSel = selectedProducts.bases
+        ? PRODUCTS.bases.find(p => p.id === selectedProducts.bases)
+        : null;
+      if (baseSel) {
+        baseLabel.textContent = baseSel.name;
+        const style = baseSel.visual?.baseStyle;
+        if (style === "tub") baseThumb.style.background = "linear-gradient(135deg,#f9fafb,#e5e7eb)";
+        else if (style === "tile_pan") baseThumb.style.background = "linear-gradient(135deg,#e5e7eb,#9ca3af)";
+      }
+
+      // Door
+      doorThumb.style.background = "linear-gradient(135deg,#e5e7eb,#9ca3af)";
+      doorLabel.textContent = "Framed Sliding Door";
+      const doorSel = selectedProducts.doors
+        ? PRODUCTS.doors.find(p => p.id === selectedProducts.doors)
+        : null;
+      if (doorSel) {
+        doorLabel.textContent = doorSel.name;
+        const style = doorSel.visual?.doorStyle;
+        if (style === "frameless") doorThumb.style.background = "linear-gradient(135deg,#f9fafb,#d1d5db)";
+        else if (style === "semi") doorThumb.style.background = "linear-gradient(135deg,#e5e7eb,#9ca3af)";
+      }
+    }
+
+    function calculateBaseProjectPrice() {
+      if (buildMode === "fullbath") {
+        return BASE_MODE_PRICING.fullbath.base;
+      }
+
+      // For shower mode, use the rules you gave:
+      // If a tile pan is selected, use 14k tile shower start; else 12k if tile walls; else 8.5k tub replacement baseline.
+      const wallSel = selectedProducts.walls
+        ? PRODUCTS.walls.find(p => p.id === selectedProducts.walls)
+        : null;
+      const baseSel = selectedProducts.bases
+        ? PRODUCTS.bases.find(p => p.id === selectedProducts.bases)
+        : null;
+
+      const isTilePan = baseSel && baseSel.visual?.baseStyle === "tile_pan";
+      const isTileWall = wallSel && (wallSel.id === "bci_tile_warmstone" || wallSel.id.includes("tile"));
+
+      if (isTilePan) return BASE_MODE_PRICING.shower.tileShowerWithTilePan;
+      if (isTileWall) return BASE_MODE_PRICING.shower.tileShowerWithAcrylicPan;
+
+      // Default tub/shower replacement baseline
+      return BASE_MODE_PRICING.shower.tubReplacementStart;
+    }
+
+    function updateSummary() {
+      const repMode = document.getElementById("repMode").checked;
+
+      // Pricing
+      const baseProjectPrice = calculateBaseProjectPrice();
+
+      let componentsPrice = 0;
+      const cartItems = [];
+
+      Object.keys(selectedProducts).forEach(catId => {
+        const prodId = selectedProducts[catId];
+        if (!prodId) return;
+        const arr = PRODUCTS[catId] || [];
+        const p = arr.find(x => x.id === prodId);
+        if (!p) return;
+        componentsPrice += p.price;
+        cartItems.push({
+          cat: catId,
+          name: p.name,
+          price: p.price
+        });
+      });
+
+      const total = baseProjectPrice + componentsPrice;
+      const monthly = total > 0 ? Math.round(total / 120) : 0;
+
+      document.getElementById("basePriceLabel").textContent = formatMoney(baseProjectPrice);
+      document.getElementById("componentsPriceLabel").textContent = formatMoney(componentsPrice);
+      document.getElementById("totalPriceLabel").textContent = formatMoney(total);
+      document.getElementById("paymentNote").textContent =
+        "Estimated example payment over 120 months: " +
+        formatMoney(monthly) +
+        "/mo (sample only, not an official finance offer).";
+
+      // Cart list
+      const cartListEl = document.getElementById("cartList");
+      cartListEl.innerHTML = "";
+      if (cartItems.length === 0) {
+        cartListEl.innerHTML =
+          '<div style="font-size:0.78rem;color:#6b7280;">Start selecting wall system, base, fixtures, doors and flooring – each selection will appear here like an Amazon cart.</div>';
+      } else {
+        cartItems.forEach(ci => {
+          const div = document.createElement("div");
+          div.className = "cart-item";
+          div.innerHTML = `
+            <div>
+              <span class="name">${ci.name}</span>
+              <span class="cat">(${ci.cat})</span>
+            </div>
+            <span class="price">${formatMoney(ci.price)}</span>
+          `;
+          cartListEl.appendChild(div);
+        });
+      }
+
+      // Proposal text
+      const customerName = document.getElementById("customerName").value.trim();
+      const address = document.getElementById("address").value.trim();
+      const source = document.getElementById("source").value;
+
+      const proposalClientLabel = document.getElementById("proposalClientLabel");
+      if (customerName) {
+        proposalClientLabel.innerHTML =
+          "Prepared for: <strong>" + customerName + "</strong>" + (address ? " – " + address : "");
+      } else {
+        proposalClientLabel.innerHTML = "Prepared for: <strong>Homeowner</strong>";
+      }
+
+      const overview = document.getElementById("proposalOverview");
+      overview.innerHTML = "";
+      const overviewItems = [];
+      overviewItems.push("Build mode: " + BASE_MODE_PRICING[buildMode].label);
+      if (source) overviewItems.push("Lead source: " + source);
+      overviewItems.push("Estimated total investment at this stage: " + formatMoney(total));
+      overviewItems.forEach(t => {
+        const li = document.createElement("li");
+        li.textContent = t;
+        overview.appendChild(li);
+      });
+
+      const scope = document.getElementById("proposalScope");
+      scope.innerHTML = "";
+      const scopeItems = [
+        "Remove existing wet area materials as needed and prep surfaces.",
+        "Install selected Moore Done Right wall system, base and fixtures per manufacturer specification.",
+        "Install selected glass door and accessories per final design.",
+        "All work performed to applicable local codes and permitting requirements."
+      ];
+      const wallSel = selectedProducts.walls
+        ? PRODUCTS.walls.find(p => p.id === selectedProducts.walls)
+        : null;
+      if (wallSel) scopeItems.push("Wall system: " + wallSel.name);
+      const baseSel = selectedProducts.bases
+        ? PRODUCTS.bases.find(p => p.id === selectedProducts.bases)
+        : null;
+      if (baseSel) scopeItems.push("Base/tub: " + baseSel.name);
+      const doorSel = selectedProducts.doors
+        ? PRODUCTS.doors.find(p => p.id === selectedProducts.doors)
+        : null;
+      if (doorSel) scopeItems.push("Glass: " + doorSel.name);
+      const fixtureSel = selectedProducts.fixtures
+        ? PRODUCTS.fixtures.find(p => p.id === selectedProducts.fixtures)
+        : null;
+      if (fixtureSel) scopeItems.push("Fixtures: " + fixtureSel.name);
+      const floorSel = selectedProducts.flooring
+        ? PRODUCTS.flooring.find(p => p.id === selectedProducts.flooring)
+        : null;
+      if (floorSel) scopeItems.push("Flooring: " + floorSel.name);
+
+      scopeItems.forEach(t => {
+        const li = document.createElement("li");
+        li.textContent = t;
+        scope.appendChild(li);
+      });
+
+      const invest = document.getElementById("proposalInvestment");
+      invest.innerHTML = "";
+      const li1 = document.createElement("li");
+      li1.textContent = "Conceptual project investment based on selections today: " + formatMoney(total) + ".";
+      invest.appendChild(li1);
+      const li2 = document.createElement("li");
+      li2.textContent =
+        "Final proposal, contract pricing and financing options will be confirmed after field measurements and site inspection.";
+      invest.appendChild(li2);
+
+      const chipRow = document.getElementById("chipRow");
+      chipRow.innerHTML = "";
+      function addChip(text) {
+        const span = document.createElement("span");
+        span.className = "chip";
+        span.textContent = text;
+        chipRow.appendChild(span);
+      }
+      addChip(BASE_MODE_PRICING[buildMode].label);
+      if (wallSel) addChip(wallSel.name);
+      if (baseSel) addChip(baseSel.name);
+      if (doorSel) addChip(doorSel.name);
+      if (fixtureSel) addChip(fixtureSel.name);
+      if (floorSel) addChip(floorSel.name);
+
+      // repMode could later show cost/margin; for now it simply exists for future expansion.
+    }
+
+    // ============
+    // INIT
+    // ============
+    renderCategories();
+    renderProducts();
+    updateVisualFromSelections();
+    updateSummary();
+  </script>
+</body>
+</html>
