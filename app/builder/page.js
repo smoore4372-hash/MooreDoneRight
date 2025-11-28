@@ -1,3 +1,6 @@
+"use client";
+
+import React, { useState } from "react";
 const products = {
   showerTypes: [
     {
@@ -20,7 +23,6 @@ const products = {
     }
   ],
   wallSystems: [
-    {
       id: "bci_subway_white",
       name: "BCI Prime – White Subway",
       description: "Classic subway pattern acrylic wall system.",
@@ -161,7 +163,8 @@ function formatMoney(n) {
 
 export default function BuilderPage() {
   // Simple in-memory state using React hooks
-  const [selection, setSelection] = React.useState({
+  const [selection, setSelection] =
+    useState({
     showerType: "tub_to_shower",
     wallSystem: "bci_subway_white",
     base: "base_60x30",
@@ -471,5 +474,3 @@ export default function BuilderPage() {
     </div>
   );
 }
-
-import React from "react";
