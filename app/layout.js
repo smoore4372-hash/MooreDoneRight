@@ -1,45 +1,56 @@
+// app/layout.js
 import "./globals.css";
 
 export const metadata = {
-  title: "Moore Done Right – Shower Specialists",
-  description: "Visual bathroom & shower remodeling builder for the Capital Region.",
+  title: "Moore Done Right | Bathroom & Shower Remodeling in Albany NY",
+  description:
+    "Design and price your new shower or bath in minutes. Moore Done Right provides tub-to-shower conversions, walk-in showers, tile showers, and bathroom remodeling across the Capital Region of NY.",
+  metadataBase: new URL("https://moore-done-right-rznp.vercel.app"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Moore Done Right – Shower & Bath Visual Builder",
+    description:
+      "Build and price your new shower or bath from home. See options for BCI acrylic walls, Delta fixtures, glass doors, LifeProof flooring and more.",
+    url: "https://moore-done-right-rznp.vercel.app",
+    siteName: "Moore Done Right",
+    locale: "en_US",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <div className="shell">
-          <header className="nav">
-            <div style={{display:"flex",alignItems:"center",gap:12}}>
-              <div style={{
-                width:56,height:56,borderRadius:14,background:"#0d4f7c",
-                display:"flex",alignItems:"center",justifyContent:"center",
-                overflow:"hidden"
-              }}>
-                <img
-                  src="/images/logo.png"
-                  alt="Moore Done Right Shower Specialists"
-                  style={{width:"100%",height:"100%",objectFit:"contain"}}
-                />
-              </div>
-              <div>
-                <div style={{fontWeight:800,letterSpacing:"0.08em",fontSize:"0.85rem"}}>
-                  MOORE DONE RIGHT
-                </div>
-                <div style={{fontSize:"0.8rem",color:"var(--text-muted)"}}>
-                  Shower Specialists • Capital Region
-                </div>
+        <header className="site-header">
+          <div className="site-header-inner">
+            <div className="logo-wrap">
+              <img
+                src="/images/logo.png"
+                alt="Moore Done Right logo"
+                className="logo-img"
+              />
+              <div className="logo-text">
+                <div className="logo-title">Moore Done Right</div>
+                <div className="logo-sub">Shower & Bath Specialists</div>
               </div>
             </div>
-            <nav className="nav-links">
-              <a href="/" className="active">Home</a>
+            <nav className="main-nav">
+              <a href="/">Home</a>
               <a href="/builder">Visual Builder</a>
+              <a href="#services">Services</a>
+              <a href="#areas">Service Areas</a>
+              <a href="#contact">Free Design Visit</a>
             </nav>
-          </header>
-          <main style={{marginTop:16}}>{children}</main>
-        </div>
-      </body>
-    </html>
-  );
-}
+          </div>
+        </header>
+
+        <main className="site-main">{children}</main>
+
+        <footer class
