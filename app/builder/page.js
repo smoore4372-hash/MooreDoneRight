@@ -128,18 +128,18 @@ const products = {
     }
   ],
   accessories: [
-    {
+   {
       id: "grab_bar_24",
-      name: "24" Grab Bar (qty 1)",
+      name: "24\" Grab Bar (qty 1)",
       description: "Stainless grab bar installed to blocking.",
       price: 275
     },
     {
       id: "grab_bar_12",
-      name: "12" Grab Bar (qty 1)",
+      name: "12\" Grab Bar (qty 1)",
       description: "Shorter grab bar, ideal for entries.",
       price: 225
-    },
+    } ,
     {
       id: "niche_single",
       name: "Single Niche",
