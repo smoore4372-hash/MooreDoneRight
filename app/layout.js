@@ -53,4 +53,22 @@ export default function RootLayout({ children }) {
 
         <main className="site-main">{children}</main>
 
-        <footer class
+        <footer className="site-footer">
+          <div className="site-footer-inner">
+            <div>
+              <strong>Moore Done Right</strong> – Bathroom Remodeling
+              <br />
+              Serving Albany, Latham, Delmar, Saratoga, Loudonville and the
+              Capital Region of NY.
+            </div>
+            <div className="footer-contact">
+              <div>Call or text: <a href="tel:15182104372">(518) 210-4372</a></div>
+              <div>Email: <a href="mailto:smoore4372@gmail.com">smoore4372@gmail.com</a></div>
+              <div>© {new Date().getFullYear()} Moore Done Right. All rights reserved.</div>
+            </div>
+          </div>
+        </footer>
+      </body>
+    </html>
+  );
+}
