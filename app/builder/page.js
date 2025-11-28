@@ -42,29 +42,29 @@ const products = {
       priceAdj: 2400
     }
   ],
-  bases: [
-    {
-      id: "base_60x30",
-      name: "60" x 30" Acrylic Shower Base",
-      description: "Standard 5' acrylic shower pan with center drain.",
-      image: "/images/sample-base-60x30.png",
-      price: 1200
-    },
-    {
-      id: "base_60x32",
-      name: "60" x 32" Acrylic Shower Base",
-      description: "Slightly deeper base for extra elbow room.",
-      image: "/images/sample-base-60x32.png",
-      price: 1300
-    },
-    {
-      id: "base_48x36",
-      name: "48" x 36" Acrylic Shower Base",
-      description: "Compact base for smaller bathrooms.",
-      image: "/images/sample-base-48x36.png",
-      price: 1100
-    }
-  ],
+ bases: [
+  {
+    id: "base_60x30",
+    name: '60" x 30" Acrylic Shower Base',
+    description: "Standard 5' acrylic shower pan with center drain.",
+    image: "/images/sample-base-60x30.png",
+    price: 1200
+  },
+  {
+    id: "base_60x32",
+    name: '60" x 32" Acrylic Shower Base',
+    description: "Slightly deeper base for extra elbow room.",
+    image: "/images/sample-base-60x32.png",
+    price: 1300
+  },
+  {
+    id: "base_48x36",
+    name: '48" x 36" Acrylic Shower Base',
+    description: "Compact base for smaller bathrooms.",
+    image: "/images/sample-base-48x36.png",
+    price: 1100
+  }
+],
   fixtures: [
     {
       id: "delta_t17_classic",
