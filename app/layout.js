@@ -1,19 +1,20 @@
 // app/layout.js
 import "./globals.css";
+import { SITE_URL, BUSINESS, SERVICES, CITIES } from "@/lib/site";
 
 export const metadata = {
-  title: "Moore Done Right | Bathroom & Shower Remodeling in Albany NY",
+  title: {
+    default: "Moore Done Right | Bathroom & Shower Remodeling in Albany NY",
+    template: "%s | Moore Done Right",
+  },
   description:
     "Design and price your new shower or bath in minutes. Moore Done Right provides tub-to-shower conversions, walk-in showers, tile showers, and bathroom remodeling across the Capital Region of NY.",
-  metadataBase: new URL("https://moore-done-right-rznp.vercel.app"),
-  alternates: {
-    canonical: "/",
-  },
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     title: "Moore Done Right – Shower & Bath Visual Builder",
     description:
       "Build and price your new shower or bath from home. See options for BCI acrylic walls, Delta fixtures, glass doors, LifeProof flooring and more.",
-    url: "https://moore-done-right-rznp.vercel.app",
+    url: SITE_URL,
     siteName: "Moore Done Right",
     locale: "en_US",
     type: "website",
@@ -24,10 +25,37 @@ export const metadata = {
   },
 };
 
+const businessSchema = {
+  "@context": "https://schema.org",
+  "@type": "GeneralContractor",
+  "@id": `${SITE_URL}/#business`,
+  name: BUSINESS.name,
+  url: SITE_URL,
+  image: `${SITE_URL}${BUSINESS.logo}`,
+  logo: `${SITE_URL}${BUSINESS.logo}`,
+  telephone: BUSINESS.phone,
+  email: BUSINESS.email,
+  description:
+    "Shower, bathtub and bathroom remodeling in Albany NY and the Capital Region.",
+  areaServed: CITIES.map((c) => ({ "@type": "City", name: `${c.name}, NY` })),
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Bathroom remodeling services",
+    itemListElement: SERVICES.map((s) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.name },
+    })),
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
+        />
         <header className="site-header">
           <div className="site-header-inner">
             <div className="logo-wrap">
@@ -44,9 +72,9 @@ export default function RootLayout({ children }) {
             <nav className="main-nav">
               <a href="/">Home</a>
               <a href="/builder">Visual Builder</a>
-              <a href="#services">Services</a>
-              <a href="#areas">Service Areas</a>
-              <a href="#contact">Free Design Visit</a>
+              <a href="/#services">Services</a>
+              <a href="/#areas">Service Areas</a>
+              <a href="/#contact">Free Design Visit</a>
             </nav>
           </div>
         </header>
