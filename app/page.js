@@ -1,5 +1,9 @@
 // app/page.js
 
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default function HomePage() {
   return (
     <div className="page">
@@ -59,6 +63,12 @@ export default function HomePage() {
       {/* SERVICES */}
       <section className="card" id="services">
         <h2>Remodeling Services We Offer</h2>
+        <ul className="tag-list">
+          <li><a href="/services/tub-to-shower-conversion">Tub-to-Shower Conversion</a></li>
+          <li><a href="/services/walk-in-showers">Walk-In Showers</a></li>
+          <li><a href="/services/tile-showers">Custom Tile Showers</a></li>
+          <li><a href="/services/bathroom-remodeling">Bathroom Remodeling</a></li>
+        </ul>
         <div className="grid-3">
           <div className="service-block">
             <h3>Tub-to-Shower Conversions</h3>
@@ -125,15 +135,15 @@ export default function HomePage() {
           Capital Region of New York:
         </p>
         <ul className="tag-list">
-          <li>Albany</li>
-          <li>Latham</li>
-          <li>Delmar</li>
-          <li>Loudonville</li>
-          <li>Colonie</li>
-          <li>Schenectady</li>
-          <li>Troy</li>
-          <li>Saratoga Springs</li>
-          <li>Clifton Park</li>
+          <li><a href="/areas/albany-ny">Albany</a></li>
+          <li><a href="/areas/latham-ny">Latham</a></li>
+          <li><a href="/areas/delmar-ny">Delmar</a></li>
+          <li><a href="/areas/loudonville-ny">Loudonville</a></li>
+          <li><a href="/areas/colonie-ny">Colonie</a></li>
+          <li><a href="/areas/schenectady-ny">Schenectady</a></li>
+          <li><a href="/areas/troy-ny">Troy</a></li>
+          <li><a href="/areas/saratoga-springs-ny">Saratoga Springs</a></li>
+          <li><a href="/areas/clifton-park-ny">Clifton Park</a></li>
           <li>Rensselaer County</li>
           <li>Columbia &amp; Greene Counties</li>
         </ul>

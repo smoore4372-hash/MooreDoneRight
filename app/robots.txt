@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://moore-done-right.vercel.app/sitemap.xml

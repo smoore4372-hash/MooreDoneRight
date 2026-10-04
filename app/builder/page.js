@@ -8,7 +8,7 @@ const products = {
       id: "tub_to_shower",
       name: "Tub-to-Shower Conversion",
       description: "Remove existing tub, install low-threshold shower system.",
-      basePrice: 9500,
+      basePrice: 8500,
     },
     {
       id: "shower_only",
